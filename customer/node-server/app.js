@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const { errorHandler, restrictToLoggedInUsersOnly } = require("./middleware");
 const userRouter = require("./routes/user");
+const productsRouter = require("./routes/products");
 const dashboardRouter = require("./routes/dashboard");
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 //Routes
 app.use("/api/user", userRouter);
+app.use("/api/products", productsRouter);
 app.use("/api/dashboard", restrictToLoggedInUsersOnly, dashboardRouter);
 
 // Error handler

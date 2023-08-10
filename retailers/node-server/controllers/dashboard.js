@@ -5,13 +5,15 @@ const getDashboardData = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  const products = await Product.find({ user: req.user._id });
+  console.log(req.user);
+  const products = await Product.find({ user_id: req.user._id });
   return res.status(200).send({ success: true, products });
 };
 
 const createProduct = async (req, res) => {
   try {
-    const product = await Product.create({ ...req.body, user: req.user._id });
+    console.log(req.user.name);
+    const product = await Product.create({ ...req.body, user_id: req.user._id, retailer_name: req.user.name.firstName });
     return res.status(200).send({ success: true, product });
   } catch (err) {
     res.status(400).send(err.message);

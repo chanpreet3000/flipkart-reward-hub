@@ -14,8 +14,8 @@
 }
 
 .homepage-title {
-  font-size: 5rem;
-  margin-top: 5rem;
+  font-size: 2rem;
+  margin-top: 2rem;
   font-weight: bold;
   width: 100%;
   text-align: center;
@@ -35,6 +35,19 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 3rem;
+}
+.homepage__nav-inverse-btn{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  color: white;
+  background-color: #2874f0;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0.5rem 2rem;
 }
 
 @media (max-width: 1000px) {

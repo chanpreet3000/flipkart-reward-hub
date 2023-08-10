@@ -24,12 +24,8 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user_id: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    retailer_name: {
-      type: String,
       required: true,
     },
   },
