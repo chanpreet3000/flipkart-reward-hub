@@ -1,0 +1,19 @@
+.sell-products__container {
+  margin: 2rem 6rem;
+}
+.sell-products__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.sell-products__items {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}

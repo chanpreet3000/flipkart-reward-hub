@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import InputField from "../components/InputField/input_field";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../axios";
+import {axiosInstance} from "../axios";
 
 const Signup = () => {
   const [form, setForm] = useState({});

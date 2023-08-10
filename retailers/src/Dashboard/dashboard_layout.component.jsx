@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../axios";
+import SellProducts from "./SellProducts/SellProducts";
 
 export default function DashboardLayout() {
-  const [authorized, setAuthorized] = useState(false);
-
   useEffect(() => {
-    document.title = "Dashboard";
-    const fetchData = async () => {};
-
-    fetchData();
+    document.title = "Retailers Dashboard";
   }, []);
 
-  return !authorized ? <div>User is not authorized</div> : <>Flipkart</>;
+  return (
+    <>
+      <SellProducts />
+    </>
+  );
 }

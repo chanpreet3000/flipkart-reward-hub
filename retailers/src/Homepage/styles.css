@@ -2,10 +2,15 @@
   margin: 0px;
   padding: 0px;
   aspect-ratio: 1985/803;
-  background-image: url("../raw/homepage_background.png");
+  background-image: url("../raw/retailers-home-page.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom center;
+  display: flex;
+  flex-direction: row;
+}
+.background-image > div {
+  flex: 1;
 }
 
 .homepage-container {
@@ -36,7 +41,19 @@
   gap: 1rem;
   margin-top: 3rem;
 }
-
+.homepage__nav-inverse-btn{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  color: white;
+  background-color: #2874f0;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0.5rem 2rem;
+}
 @media (max-width: 1000px) {
   .homepage-title {
     font-size: 3rem;
@@ -57,7 +74,7 @@
     margin: 0px;
     padding: 0px;
     aspect-ratio: 1985/1603;
-    background-image: url("../raw/homepage_background.png");
+    background-image: url("../raw/retailers-home-page.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom center;

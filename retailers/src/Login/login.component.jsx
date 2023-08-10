@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField/input_field";
-import axiosInstance from "../axios";
+import {axiosInstance} from "../axios";
 import { useLocation } from "react-router-dom";
 
 const Login = () => {

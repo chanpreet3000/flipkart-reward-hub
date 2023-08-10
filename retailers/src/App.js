@@ -1,21 +1,28 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
-import CustomerHomepage from "./Homepage/homepage.component";
-import CustomerDashboardLayout from "./Dashboard/dashboard_layout.component";
-import CustomerLogin from "./Login/login.component";
-import CustomerSignUp from "./Signup/signup.component";
-import CustomerNavbar from "./Navbar/navbar.component";
+import Homepage from "./Homepage/homepage.component";
+import DashboardLayout from "./Dashboard/dashboard_layout.component";
+import Login from "./Login/login.component";
+import SignUp from "./Signup/signup.component";
+import Navbar from "./Navbar/navbar.component";
+import PrivateRoutes from "./PrivateRoute";
+import SellProducts from "./Dashboard/SellProducts/SellProducts";
+import CreateProduct from "./Dashboard/CreateProduct/CreateProduct";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<CustomerNavbar />}>
-          <Route index element={<CustomerHomepage />} />
-          <Route path="login" element={<CustomerLogin />} />
-          <Route path="signup" element={<CustomerSignUp />} />
-          <Route path="dashboard/*" element={<CustomerDashboardLayout />} />
+        <Route path="/" element={<Navbar />}>
+          <Route index element={<Homepage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="dashboard" element={<PrivateRoutes />}>
+            <Route index element={<DashboardLayout />} />
+            <Route path="sell-products" element={<SellProducts />} />
+            <Route path="sell-products/create" element={<CreateProduct />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
