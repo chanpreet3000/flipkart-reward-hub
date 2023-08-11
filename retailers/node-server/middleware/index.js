@@ -10,7 +10,7 @@ const errorHandler = (error, req, res, next) => {
 
 const restrictToLoggedInUsersOnly = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.retailer_token;
     const decoded = jwt.verify(token, JWT_KEY);
     const user = await RetailerUser.findOne({
       email: decoded.email,

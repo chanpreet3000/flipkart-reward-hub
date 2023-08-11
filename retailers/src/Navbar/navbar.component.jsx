@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   const handlerUserSignOut = () => {
-    Cookies.remove("token", { path: "/" });
+    Cookies.remove("retailer_token", { path: "/" });
     navigate(`/login`);
   };
 

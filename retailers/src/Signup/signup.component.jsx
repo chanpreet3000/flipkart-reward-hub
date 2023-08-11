@@ -3,12 +3,14 @@ import InputField from "../components/InputField/input_field";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../axios";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const Signup = () => {
   const [form, setForm] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const [walletId, setWalletId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +36,10 @@ const Signup = () => {
       setErrorMessage("Confirm password is not same as password");
       return false;
     }
+    if (!walletId) {
+      setErrorMessage("Please connect your wallet");
+      return false;
+    }
     return true;
   };
 
@@ -50,7 +56,7 @@ const Signup = () => {
     setErrorMessage("");
     setDisabled(true);
     axiosInstance
-      .post("api/user/signup", form)
+      .post("api/user/signup", { ...form, walletId })
       .then(() => {
         navigate("/login", { state: { success: true } });
       })
@@ -61,6 +67,24 @@ const Signup = () => {
       .finally(() => {
         setDisabled(false);
       });
+  };
+  const connectWallet = () => {
+    setErrorMessage("");
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((result) => {
+          walletConnected(result[0]);
+        })
+        .catch((err) => {
+          setErrorMessage(err);
+        });
+    } else {
+      setErrorMessage("Please Install MetaMask!");
+    }
+  };
+  const walletConnected = (account) => {
+    setWalletId(account);
   };
   return (
     <>
@@ -101,6 +125,19 @@ const Signup = () => {
                   placeholder="Same as password"
                   onChange={handleForm}
                 />
+                {walletId === null ? (
+                  <div className="signup-form-wallet" onClick={connectWallet}>
+                    <div className="btn">Connect your wallet</div>
+                  </div>
+                ) : (
+                  <div className="signup-form-wallet-connected">
+                    <ErrorIcon style={{ color: "white" }} />
+                    <div className="wrapper">
+                      <div className="title">MetaMask Walled Connected!</div>
+                      <div>{walletId}</div>
+                    </div>
+                  </div>
+                )}
                 <div className="signup-form__agreement-label">
                   By Signing up, I agree to all Terms and Privacy Policy.
                 </div>

@@ -18,17 +18,7 @@ const handleUserSignUp = async (req, res) => {
     },
     email: data.email,
     password: encryptedPassword,
-    phone: {
-      countryCode: data.countryCode,
-      phoneNumber: data.phoneNumber,
-    },
-    address: {
-      streetAddress: data.streetAddress,
-      zipCode: data.zipCode,
-      city: data.city,
-      state: data.state,
-      country: data.country,
-    },
+    walletId: data.walletId
   });
   return res.status(200).send({ success: true });
 };

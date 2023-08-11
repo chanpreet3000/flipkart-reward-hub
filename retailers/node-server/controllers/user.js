@@ -10,11 +10,12 @@ const handleUserSignUp = async (req, res) => {
 
   const data = req.body;
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-
+  console.log(data);
   await RetailerUser.create({
     retailer_name: data.retailer_name,
     email: data.email,
     password: encryptedPassword,
+    walledId: data.walletId,
   });
   return res.status(200).send({ success: true });
 };
@@ -33,7 +34,7 @@ const handleUserLogin = async (req, res) => {
     },
     JWT_KEY
   );
-  res.cookie("token", token);
+  res.cookie("retailer_token", token);
   return res.status(200).send({ success: true });
 };
 

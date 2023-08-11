@@ -8,17 +8,7 @@ const UserSchema = mongoose.Schema(
     },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    phone: {
-      countryCode: { type: String },
-      phoneNumber: { type: String },
-    },
-    address: {
-      streetAddress: { type: String },
-      zipCode: { type: String },
-      city: { type: String },
-      state: { type: String },
-      country: { type: String },
-    },
+    walletId: { type: String, required: true },
   },
   { timestamps: true }
 );
