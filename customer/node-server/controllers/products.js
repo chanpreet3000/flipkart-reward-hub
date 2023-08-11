@@ -5,4 +5,10 @@ const getAllProducts = async (req, res) => {
   return res.status(200).send({ success: true, products });
 };
 
-module.exports = { getAllProducts };
+const getProductById = async (req, res) => {
+  const productId = req.params["id"];
+  const product = await Product.findById(productId);
+  return res.status(200).send({ success: true, product });
+};
+
+module.exports = { getAllProducts, getProductById };

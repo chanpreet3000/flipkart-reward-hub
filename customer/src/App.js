@@ -5,6 +5,8 @@ import CustomerHomepage from "./Homepage/homepage.component";
 import CustomerLogin from "./Login/login.component";
 import CustomerSignUp from "./Signup/signup.component";
 import CustomerNavbar from "./Navbar/navbar.component";
+import ShopProducts from "./Homepage/ShopProducts/ShopProducts";
+import ProductInfo from "./Homepage/ProductInfo/ProductInfo";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
           <Route index element={<CustomerHomepage />} />
           <Route path="login" element={<CustomerLogin />} />
           <Route path="signup" element={<CustomerSignUp />} />
+          <Route path="products" element={<ShopProducts />} />
+          <Route path="products/:id" element={<ProductInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -144,7 +144,53 @@
   border: none;
   outline: none;
 }
-
+.dashboard__top-nav-menu-profile-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  cursor: pointer;
+}
+.dashboard_profile-popout {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  top: 100%;
+  width: 250px;
+  right: 0;
+  margin-top: 1rem;
+  box-shadow: 0 0 3px 3px #0f0f0f1d;
+  z-index: 99;
+}
+.dashboard_profile-popout-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 100ms;
+  width: 100%;
+  font-size: 14px;
+  text-decoration: none;
+  color: black;
+}
+.dashboard_profile-popout-item:hover {
+  background-color: #e0e0e0;
+}
+.dashboard_profile-logout-btn {
+  margin: 1rem 0rem;
+  padding: 0.2rem 0.7rem;
+}
+.dashboard__top-nav-menu-profile-card-name {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  border-bottom: 1px solid black;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  font-weight: bold;
+  text-overflow: ellipsis;
+}
 @media (max-width: 1000px) {
   .navbar-menu {
     display: block;

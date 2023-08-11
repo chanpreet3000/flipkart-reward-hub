@@ -22,8 +22,8 @@
 }
 
 .create-product .container > div > img {
-  aspect-ratio: 9/14;
-  width: 40%;
+  width: 60%;
+  height: auto;
   margin: auto;
 }
 .create-product .form {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import InputField from "../components/InputField/input_field";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
-import {axiosInstance} from "../axios";
+import { axiosInstance } from "../axios";
 
 const Signup = () => {
   const [form, setForm] = useState({});
@@ -22,7 +22,7 @@ const Signup = () => {
       setErrorMessage("Email is Invalid");
       return false;
     }
-    if (form.first_name.length < 3) {
+    if (form.retailer_name.length < 3) {
       setErrorMessage("First name should have atleast 3 characters");
       return false;
     }
@@ -72,24 +72,14 @@ const Signup = () => {
               <h1 className="signup__form-title">Hi There!</h1>
               <h3>Create your account</h3>
               <div className="signup-form_inputs">
-                <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
-                  <InputField
-                    style={{ flex: "1" }}
-                    label="First name"
-                    id="first_name"
-                    type="text"
-                    placeholder="John"
-                    onChange={handleForm}
-                  />
-                  <InputField
-                    style={{ flex: "1" }}
-                    label="Last name"
-                    id="last_name"
-                    type="text"
-                    placeholder="Doe"
-                    onChange={handleForm}
-                  />
-                </div>
+                <InputField
+                  style={{ flex: "1" }}
+                  label="Retailer Name"
+                  id="retailer_name"
+                  type="text"
+                  placeholder="Apple"
+                  onChange={handleForm}
+                />
                 <InputField
                   label="Email"
                   id="email"
