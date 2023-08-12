@@ -1,12 +1,15 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
-const { errorHandler, restrictToLoggedInUsersOnly } = require("./middleware");
-const userRouter = require("./routes/user");
-const dashboardRouter = require("./routes/dashboard");
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
+import { errorHandler, restrictToLoggedInUsersOnly } from './middleware/index.js';
+import userRouter from './routes/retailer_user.js';
+import dashboardRouter from './routes/dashboard.js';
+
 const app = express();
 
 // Starting middlewares

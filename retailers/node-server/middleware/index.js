@@ -1,14 +1,15 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const RetailerUser = require("../models/retailer_user.model");
+import dotenv from 'dotenv';
+dotenv.config();
+
+import jwt from 'jsonwebtoken';
+import RetailerUser from '../models/retailer_user.model.js';
 const JWT_KEY = process.env.JWT_KEY;
 
-const errorHandler = (error, req, res, next) => {
+export const errorHandler = (error, req, res, next) => {
   console.error(error.stack);
   res.status(500).send("Something went wrong!");
 };
-
-const restrictToLoggedInUsersOnly = async (req, res, next) => {
+export const restrictToLoggedInUsersOnly = async (req, res, next) => {
   try {
     const token = req.cookies.retailer_token;
     const decoded = jwt.verify(token, JWT_KEY);
@@ -23,5 +24,3 @@ const restrictToLoggedInUsersOnly = async (req, res, next) => {
     return res.status(401).send("RetailerUser not authorized");
   }
 };
-
-module.exports = { errorHandler, restrictToLoggedInUsersOnly };

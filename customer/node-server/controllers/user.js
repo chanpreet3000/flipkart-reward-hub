@@ -1,15 +1,29 @@
-require("dotenv").config();
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import dotenv from "dotenv";
+dotenv.config();
+import { create } from "ipfs-http-client";
+const client = create("http://192.168.1.11:5001");
+
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
 const JWT_KEY = process.env.JWT_KEY;
 
-const handleUserSignUp = async (req, res) => {
+export const handleUserSignUp = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send(`Account with email ${req.body.email} already exists`);
 
   const data = req.body;
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+
+  // Storing the Initial Transaction Data in IPFS.
+  const initialLoyaltyData = JSON.stringify({
+    amount: 25,
+    transactionList: [],
+    updated_at: Date.now(),
+    created_at: Date.now(),
+  });
+  const ipfsResponse = await client.add(initialLoyaltyData);
 
   await User.create({
     name: {
@@ -18,12 +32,13 @@ const handleUserSignUp = async (req, res) => {
     },
     email: data.email,
     password: encryptedPassword,
-    walletId: data.walletId
+    walletId: data.walletId,
+    ipfsPath: ipfsResponse.path,
   });
   return res.status(200).send({ success: true });
 };
 
-const handleUserLogin = async (req, res) => {
+export const handleUserLogin = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(400).send(`Account with email ${req.body.email} does not exists`);
 
@@ -40,5 +55,3 @@ const handleUserLogin = async (req, res) => {
   res.cookie("token", token);
   return res.status(200).send({ success: true });
 };
-
-module.exports = { handleUserSignUp, handleUserLogin };

@@ -1,9 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { tryCatch } = require("../tryCatch");
-const { handleUserSignUp, handleUserLogin } = require("../controllers/user");
+import { tryCatch } from "../tryCatch.js";
+import { handleUserSignUp, handleUserLogin } from "../controllers/user.js";
 
 router.post("/signup", tryCatch(handleUserSignUp));
 router.post("/login", tryCatch(handleUserLogin));
-
-module.exports = router;
+export default router;

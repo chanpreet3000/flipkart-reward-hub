@@ -4,11 +4,13 @@ import { axiosInstance } from "../../axios";
 import "./styles.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 export default function ProductInfo() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [popOut, setPopOut] = useState(false);
+  const [boughtPopOut, setBoughtPopOut] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +56,24 @@ export default function ProductInfo() {
   };
   const closePopOut = () => {
     setPopOut(false);
+  };
+
+  const onBuyProduct = () => {
+    setBoughtPopOut(true);
+    setPopOut(false);
+  };
+  const getLoyaltyPoints = async () => {
+    try {
+      console.log(product);
+      const response = await axiosInstance.post("/api/loyalty/give_loyalty_coins", {
+        product_id: product._id,
+        amount: getCoinValue(product.price),
+        retailer_id: product.user_id,
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return product ? (
@@ -129,10 +149,58 @@ export default function ProductInfo() {
                 />{" "}
                 {getCoinValue(product.price)} for this purchase.
               </h3>
-              <div className="add-to-cart">
+              <div className="add-to-cart" onClick={onBuyProduct}>
                 <div>
                   <ShoppingCartIcon style={{ color: "white" }} />
                   <div>BUY NOW</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {boughtPopOut && (
+        <div className="bought-pop-out">
+          <div className="container">
+            <div className="close" onClick={() => setBoughtPopOut(false)}>
+              <CloseIcon />
+            </div>
+
+            <div>
+              <img src={product.image} className="image" draggable={false} />
+            </div>
+            <div className="wrapper">
+              <div>
+                <VerifiedIcon style={{ color: "green", fontSize: "40px" }} />
+                <h1>Order Confirmed!</h1>
+              </div>
+              <h2>Your Order for {product.name} has been placed!</h2>
+              <div>This product is being sold by {product.retailer_name}</div>
+              <div>{product.description}</div>
+              <div>{product.specifications}</div>
+              <div className="loyalty-wrapper">
+                <h4>
+                  Do you want{" "}
+                  <img
+                    src="https://rukminim2.flixcart.com/lockin/32/32/images/super_coin_icon_22X22.png?q=90"
+                    style={{ width: "15px" }}
+                  />{" "}
+                  {getCoinValue(product.price)} for this purchase?
+                </h4>
+                <div className="btn-wrapper">
+                  <div className="get-loyalty" onClick={() => getLoyaltyPoints()}>
+                    <div>
+                      GET{" "}
+                      <img
+                        src="https://rukminim2.flixcart.com/lockin/32/32/images/super_coin_icon_22X22.png?q=90"
+                        style={{ width: "15px" }}
+                      />{" "}
+                      {getCoinValue(product.price)}
+                    </div>
+                  </div>
+                  <div className="not-now" onClick={() => setBoughtPopOut(false)}>
+                    <div>NOT NOW</div>
+                  </div>
                 </div>
               </div>
             </div>

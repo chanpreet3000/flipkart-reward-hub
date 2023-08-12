@@ -102,6 +102,9 @@ const Navbar = () => {
                     <div className="dashboard__top-nav-menu-profile-card-name">
                       {userData.name.firstName + " " + userData.name.lastName}
                     </div>
+                    <Link to="/rewards_hub" className="dashboard_profile-popout-item">
+                      Loyalty Rewards hub
+                    </Link>
                     <Link to="/products" className="dashboard_profile-popout-item">
                       Shop Products
                     </Link>

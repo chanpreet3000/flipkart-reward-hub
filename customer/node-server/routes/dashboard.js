@@ -1,8 +1,8 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const { tryCatch } = require("../tryCatch");
-const { getDashboardData } = require("../controllers/dashboard");
+export default router;
+
+import { tryCatch } from '../tryCatch.js';
+import { getDashboardData } from '../controllers/dashboard.js';
 
 router.get("/", tryCatch(getDashboardData));
-
-module.exports = router;

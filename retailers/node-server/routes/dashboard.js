@@ -1,10 +1,11 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const { tryCatch } = require("../tryCatch");
-const { getDashboardData, getAllProducts, createProduct } = require("../controllers/dashboard");
+
+import { tryCatch } from '../tryCatch.js';
+import { getDashboardData, getAllProducts, createProduct } from '../controllers/dashboard.js';
 
 router.get("/", tryCatch(getDashboardData));
 router.get("/sell-product", tryCatch(getAllProducts));
 router.post("/sell-product/create", tryCatch(createProduct));
 
-module.exports = router;
+export default router;

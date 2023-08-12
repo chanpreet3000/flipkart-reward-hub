@@ -1,9 +1,10 @@
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const { tryCatch } = require("../tryCatch");
-const { getAllProducts, getProductById } = require("../controllers/products");
+export default router;
+
+import { tryCatch } from '../tryCatch.js';
+import { getAllProducts, getProductById } from '../controllers/products.js';
+
 
 router.get("/all", tryCatch(getAllProducts));
 router.get("/:id", tryCatch(getProductById));
-
-module.exports = router;
