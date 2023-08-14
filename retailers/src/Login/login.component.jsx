@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField/input_field";
-import {axiosInstance} from "../axios";
+import { axiosInstance } from "../axios";
 import { useLocation } from "react-router-dom";
 
 const Login = () => {
@@ -40,13 +40,13 @@ const Login = () => {
     setDisabled(true);
 
     //
-    axiosInstance
-      .post("/api/user/login", {
+    await axiosInstance
+      .post("/api/retailer/user/login", {
         email: form.email,
         password: form.password,
       })
       .then((response) => {
-        navigate("/dashboard/");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.error(error);

@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   const handlerUserSignOut = () => {
-    Cookies.remove("token", { path: "/" });
+    Cookies.remove("customerToken", { path: "/" });
     navigate(`/login`);
   };
 
@@ -38,11 +38,10 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/api/dashboard");
+        const response = await axiosInstance.get("/api/customer/dashboard");
         setUserData(response.data.user_data);
       } catch (err) {
         setUserData(null);
-        console.log(err);
       }
     };
 
@@ -100,13 +99,16 @@ const Navbar = () => {
                 {accountPopoutVisible && (
                   <div className="dashboard_profile-popout">
                     <div className="dashboard__top-nav-menu-profile-card-name">
-                      {userData.name.firstName + " " + userData.name.lastName}
+                      {userData?.name?.firstName + " " + userData?.name?.lastName}
                     </div>
                     <Link to="/rewards_hub" className="dashboard_profile-popout-item">
                       Loyalty Rewards hub
                     </Link>
                     <Link to="/products" className="dashboard_profile-popout-item">
                       Shop Products
+                    </Link>
+                    <Link to="/order_history" className="dashboard_profile-popout-item">
+                      Order History
                     </Link>
                     <Link to="#" className="dashboard_profile-popout-item">
                       Report a bug

@@ -9,7 +9,7 @@ export default function SellProducts() {
   useEffect(() => {
     const fetchData = async () => {
       await axiosInstance
-        .get("/api/dashboard/sell-product")
+        .get("/api/retailer/products")
         .then((response) => {
           setProducts(response.data.products);
         })
@@ -22,14 +22,14 @@ export default function SellProducts() {
     <div className="sell-products__container">
       <div className="sell-products__header">
         <h1>Your Products</h1>
-        <Link to="/dashboard/sell-products/create">
+        <Link to="/dashboard/products/create">
           <button className="homepage__nav-inverse-btn">Sell a new Product</button>
         </Link>
       </div>
-      
+
       <div className="sell-products__items">
         {products.map((product, ind) => {
-          return <ProductCard data={product}/>;
+          return <ProductCard data={product} key={ind} />;
         })}
       </div>
     </div>

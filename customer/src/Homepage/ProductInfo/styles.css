@@ -193,3 +193,14 @@
 .bought-pop-out .loyalty-wrapper div{
   width: 100%;
 }
+
+.loading-pop-out {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  inset: 0px;
+  background-color: #454545cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

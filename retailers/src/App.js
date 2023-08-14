@@ -9,6 +9,8 @@ import Navbar from "./Navbar/navbar.component";
 import PrivateRoutes from "./PrivateRoute";
 import SellProducts from "./Dashboard/SellProducts/SellProducts";
 import CreateProduct from "./Dashboard/CreateProduct/CreateProduct";
+import RewardsHub from "./RewardsHub/RewardsHub";
+import CoinActivity from "./RewardsHub/CoinActivity/CoinActivity";
 
 const App = () => {
   return (
@@ -18,10 +20,12 @@ const App = () => {
           <Route index element={<Homepage />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="rewards_hub" element={<RewardsHub />} />
+          <Route path="rewards_hub/coin_activity" element={<CoinActivity />} />
           <Route path="dashboard" element={<PrivateRoutes />}>
             <Route index element={<DashboardLayout />} />
-            <Route path="sell-products" element={<SellProducts />} />
-            <Route path="sell-products/create" element={<CreateProduct />} />
+            <Route path="products" element={<SellProducts />} />
+            <Route path="products/create" element={<CreateProduct />} />
           </Route>
         </Route>
       </Routes>

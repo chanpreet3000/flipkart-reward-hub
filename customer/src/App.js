@@ -7,6 +7,9 @@ import CustomerSignUp from "./Signup/signup.component";
 import CustomerNavbar from "./Navbar/navbar.component";
 import ShopProducts from "./Homepage/ShopProducts/ShopProducts";
 import ProductInfo from "./Homepage/ProductInfo/ProductInfo";
+import RewardsHub from "./RewardsHub/RewardsHub";
+import CoinActivity from "./RewardsHub/CoinActivity/CoinActivity";
+import OrderHistory from "./OrderHistory/OrderHistory";
 
 const App = () => {
   return (
@@ -18,6 +21,9 @@ const App = () => {
           <Route path="signup" element={<CustomerSignUp />} />
           <Route path="products" element={<ShopProducts />} />
           <Route path="products/:id" element={<ProductInfo />} />
+          <Route path="rewards_hub" element={<RewardsHub />} />
+          <Route path="rewards_hub/coin_activity" element={<CoinActivity />} />
+          <Route path="order_history" element={<OrderHistory />} />
         </Route>
       </Routes>
     </BrowserRouter>

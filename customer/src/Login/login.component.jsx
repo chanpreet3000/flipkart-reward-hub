@@ -39,8 +39,8 @@ const Login = () => {
     setErrorMessage("");
     setDisabled(true);
     //
-    axiosInstance
-      .post("/api/user/login", {
+    await axiosInstance
+      .post("/api/customer/user/login", {
         email: form.email,
         password: form.password,
       })

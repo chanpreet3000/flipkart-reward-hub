@@ -21,7 +21,7 @@ const Navbar = () => {
   };
 
   const handlerUserSignOut = () => {
-    Cookies.remove("retailer_token", { path: "/" });
+    Cookies.remove("retailerToken", { path: "/" });
     navigate(`/login`);
   };
 
@@ -38,11 +38,10 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/api/dashboard");
+        const response = await axiosInstance.get("/api/retailer/dashboard");
         setUserData(response.data.user_data);
       } catch (err) {
         setUserData(null);
-        console.log(err);
       }
     };
 
@@ -99,14 +98,17 @@ const Navbar = () => {
                 </div>
                 {accountPopoutVisible && (
                   <div className="dashboard_profile-popout">
-                    <div className="dashboard__top-nav-menu-profile-card-name">{userData.retailer_name}</div>
+                    <div className="dashboard__top-nav-menu-profile-card-name">{userData.retailerName}</div>
                     <Link to="/dashboard" className="dashboard_profile-popout-item">
                       Dashboard
                     </Link>
-                    <Link to="/dashboard/sell-products" className="dashboard_profile-popout-item">
+                    <Link to="/rewards_hub" className="dashboard_profile-popout-item">
+                      Loyalty Rewards hub
+                    </Link>
+                    <Link to="/dashboard/products" className="dashboard_profile-popout-item">
                       All Products
                     </Link>
-                    <Link to="/dashboard/sell-products/create" className="dashboard_profile-popout-item">
+                    <Link to="/dashboard/products/create" className="dashboard_profile-popout-item">
                       Create A Product
                     </Link>
                     <Link to="#" className="dashboard_profile-popout-item">

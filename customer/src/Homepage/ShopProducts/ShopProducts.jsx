@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import { axiosInstance } from "../../axios";
 
 export default function ShopProducts() {
@@ -8,8 +8,9 @@ export default function ShopProducts() {
   useEffect(() => {
     const fetchData = async () => {
       await axiosInstance
-        .get("/api/products/all")
+        .get("/api/customer/products")
         .then((response) => {
+          response.data.products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setProducts(response.data.products);
         })
         .catch((err) => {});

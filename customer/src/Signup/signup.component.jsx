@@ -54,8 +54,8 @@ const Signup = () => {
     setErrorMessage("");
     setSuccessMessage("");
     setDisabled(true);
-    axiosInstance
-      .post("api/user/signup", { ...form, walletId })
+    await axiosInstance
+      .post("api/customer/user/signup", { ...form, walletId })
       .then(() => {
         navigate("/login", { state: { success: true } });
       })

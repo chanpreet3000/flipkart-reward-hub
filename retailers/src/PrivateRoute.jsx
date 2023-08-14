@@ -9,12 +9,12 @@ export default function PrivateRoutes() {
   useEffect(() => {
     const fetchData = async () => {
       await axiosInstance
-        .get("/api/dashboard")
+        .get("/api/retailer/dashboard")
         .then((response) => {
           setAuthorized(true);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           setAuthorized(false);
         })
         .finally(() => {

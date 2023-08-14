@@ -6,10 +6,8 @@ import { axiosInstance } from "../../axios";
 
 export default function CreateProduct() {
   const [form, setForm] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const handleForm = (e) => {
     setForm({
@@ -20,8 +18,6 @@ export default function CreateProduct() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-
     const reader = new FileReader();
     reader.onload = () => {
       setPreviewImage(reader.result);
@@ -31,22 +27,18 @@ export default function CreateProduct() {
 
   const handleCreateProduct = async (e) => {
     setErrorMessage("");
-    setDisabled(true);
     //
-    axiosInstance
-      .post("/api/dashboard/sell-product/create", {
+    await axiosInstance
+      .post("/api/retailer/products/create", {
         ...form,
         image: previewImage,
       })
       .then((response) => {
-        navigate("/dashboard/sell-products");
+        navigate("/dashboard/products");
       })
       .catch((error) => {
         console.error(error);
         setErrorMessage(error?.response?.data);
-      })
-      .finally(() => {
-        setDisabled(false);
       });
   };
 
@@ -54,7 +46,7 @@ export default function CreateProduct() {
     <div className="create-product">
       <div className="header">
         <h1>Create a new Product</h1>
-        <Link to="/dashboard/sell-products">
+        <Link to="/dashboard/products">
           <button className="homepage__nav-inverse-btn">See all your products</button>
         </Link>
       </div>
