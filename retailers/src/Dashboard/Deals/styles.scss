@@ -1,0 +1,23 @@
+.deals {
+  padding: 2rem 6rem;
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .items {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+  }
+}

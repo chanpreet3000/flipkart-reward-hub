@@ -11,6 +11,8 @@ import SellProducts from "./Dashboard/SellProducts/SellProducts";
 import CreateProduct from "./Dashboard/CreateProduct/CreateProduct";
 import RewardsHub from "./RewardsHub/RewardsHub";
 import CoinActivity from "./RewardsHub/CoinActivity/CoinActivity";
+import Deals from "./Dashboard/Deals/Deals";
+import CreateDeal from "./Dashboard/CreateDeal/CreateDeal";
 
 const App = () => {
   return (
@@ -26,6 +28,9 @@ const App = () => {
             <Route index element={<DashboardLayout />} />
             <Route path="products" element={<SellProducts />} />
             <Route path="products/create" element={<CreateProduct />} />
+            <Route path="products/create" element={<CreateProduct />} />
+            <Route path="deals" element={<Deals />} />
+            <Route path="deals/create" element={<CreateDeal />} />
           </Route>
         </Route>
       </Routes>

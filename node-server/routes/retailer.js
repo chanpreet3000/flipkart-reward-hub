@@ -7,8 +7,10 @@ import jwt from "jsonwebtoken";
 import Product from "../models/Product.model.js";
 import { getJSONFromCid, storeJSONToIpfs, tryCatch } from "../util.js";
 import RetailerUser from "../models/RetailerUser.model.js";
+import Deal from "../models/Deal.model.js";
 const JWT_KEY = process.env.JWT_KEY;
 const retailerToken = "retailerToken";
+
 //
 //
 //
@@ -29,6 +31,7 @@ const restrictToRetailerOnly = async (req, res, next) => {
     return res.status(401).send("Retailer User not authorized");
   }
 };
+
 const handleRetailerSignup = async (req, res) => {
   const user = await RetailerUser.findOne({ email: req.body.email });
   if (user) return res.status(400).send(`Account with email ${req.body.email} already exists`);
@@ -53,6 +56,7 @@ const handleRetailerSignup = async (req, res) => {
   });
   return res.status(200).send({ success: true });
 };
+
 const handleRetailerLogin = async (req, res) => {
   const user = await RetailerUser.findOne({ email: req.body.email });
   if (!user) return res.status(400).send(`Account with email ${req.body.email} does not exists`);
@@ -99,10 +103,28 @@ const getRetailerDashboardData = async (req, res) => {
   return res.status(200).send({ success: true, user_data: req.retailer });
 };
 
-export const getRetailerLoyaltCoins = async (req, res) => {
+const getRetailerLoyaltyCoins = async (req, res) => {
   const retailer = req.retailer;
   const retailerIpfsData = await getJSONFromCid(retailer.ipfsPath);
   return res.status(200).send({ success: "true", data: retailerIpfsData });
+};
+
+const getRetailerDeals = async (req, res) => {
+  const deals = await Deal.find({ retailerId: req.retailer._id });
+  return res.status(200).send({ success: true, deals });
+};
+
+const createDeal = async (req, res) => {
+  try {
+    const deal = await Deal.create({
+      ...req.body,
+      retailerId: req.retailer._id,
+      retailerName: req.retailer.retailerName,
+    });
+    return res.status(200).send({ success: true, deal });
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
 };
 
 //
@@ -116,6 +138,8 @@ router.get("/products/:id", tryCatch(getProductById));
 router.get("/products", restrictToRetailerOnly, tryCatch(getRetailerProducts));
 router.post("/products/create", restrictToRetailerOnly, tryCatch(createProduct));
 router.get("/dashboard", restrictToRetailerOnly, tryCatch(getRetailerDashboardData));
-router.get("/loyalty", restrictToRetailerOnly, tryCatch(getRetailerLoyaltCoins));
+router.get("/loyalty", restrictToRetailerOnly, tryCatch(getRetailerLoyaltyCoins));
+router.get("/deals", restrictToRetailerOnly, tryCatch(getRetailerDeals));
+router.post("/deals/create", restrictToRetailerOnly, tryCatch(createDeal));
 
 export default router;
