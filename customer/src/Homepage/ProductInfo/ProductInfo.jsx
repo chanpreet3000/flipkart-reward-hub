@@ -5,6 +5,9 @@ import "./styles.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { TaskContractAddress } from "../../config.js";
+import TaskAbi from "../../TaskContract.json";
+import { ethers } from "ethers";
 
 export default function ProductInfo() {
   const { id } = useParams();
@@ -25,7 +28,7 @@ export default function ProductInfo() {
 
     fetchData();
   }, [id]);
-  
+
   const date = new Date(product?.createdAt);
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -72,18 +75,62 @@ export default function ProductInfo() {
       console.error(err);
     }
   };
-  const getLoyaltyPoints = async () => {
-    setBoughtPopOut(false);
-    try {
-      await axiosInstance.post("/api/customer/loyalty/credit", {
-        product_id: product._id,
-        amount: getCoinValue(product.price),
-        retailer_id: product.retailerId,
-      });
-      setLoyaltyCoinsBoughtPopOut(true);
-    } catch (err) {
-      console.error(err);
+  function hexToAscii(hexString) {
+    let asciiString = "";
+    for (let i = 0; i < hexString.length; i += 2) {
+      const hexPair = hexString.substr(i, 2);
+      const asciiChar = String.fromCharCode(parseInt(hexPair, 16));
+      asciiString += asciiChar;
     }
+    return asciiString;
+  }
+
+  const walletConnected = async (walletId) => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) {
+        return;
+      }
+      let chainId = await ethereum.request({ method: "eth_chainId" });
+      console.log("Connected to chain ", chainId);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const TaskContract = new ethers.Contract(TaskContractAddress, TaskAbi.abi, signer);
+      console.log(provider, signer, TaskContract);
+      let ans = await TaskContract.setCid(walletId, "absdasd");
+      console.log(ans);
+      console.log(hexToAscii(ans.data));
+      // await TaskContract.setCid(walletId, "asdassdjasdnkasdjasdasdasd")
+      //   .then((response) => {
+      //     console.log("Got a response", response);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getLoyaltyPoints = async () => {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((result) => {
+          walletConnected(result[0]);
+        })
+        .catch((err) => {});
+    }
+    // setBoughtPopOut(false);
+    // try {
+    //   await axiosInstance.post("/api/customer/loyalty/credit", {
+    //     product_id: product._id,
+    //     amount: getCoinValue(product.price),
+    //     retailer_id: product.retailerId,
+    //   });
+    //   setLoyaltyCoinsBoughtPopOut(true);
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return product ? (
