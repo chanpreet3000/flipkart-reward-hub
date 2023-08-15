@@ -1,0 +1,41 @@
+.deal-card {
+  padding: 2rem;
+  box-shadow: 0 0 5px 2px #05398da8;
+  border-radius: 1rem;
+  transition: all 200ms;
+  position: relative;
+  overflow: hidden;
+  background-color: #2874f0;
+  color: white;
+  width: 250px;
+
+  .deal-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .coupon-area {
+    margin: 1rem 0rem;
+    background-color: #2874f0;
+    border-radius: 2rem;
+    border: 3px dotted rgba(220, 220, 220, 0.32);
+    text-align: center;
+    padding: 1rem;
+  }
+  .coupon-brand {
+    position: absolute;
+    background-color: rgb(2, 194, 2);
+    color: white;
+    padding: 0.5rem 2rem;
+    bottom: 20px;
+    right: -40px;
+    transform: rotate(-45deg);
+    font-size: 12px;
+  }
+}

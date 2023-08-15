@@ -17,7 +17,7 @@ export default function DealCard({ ele }) {
           />
           {" " + ele.price}
         </div>
-        <div class="coupon-brand">COUPON CODE</div>
+        <div className="coupon-brand">COUPON CODE</div>
       </div>
     </div>
   );

@@ -1,0 +1,10 @@
+.deals-history {
+  margin: 2rem 4rem;
+
+  .deals-history-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:2rem;
+  }
+}

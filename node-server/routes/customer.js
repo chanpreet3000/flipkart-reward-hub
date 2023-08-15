@@ -9,6 +9,8 @@ import OrderHistory from "../models/OrderHistory.model.js";
 import Product from "../models/Product.model.js";
 import { getJSONFromCid, storeJSONToIpfs, tryCatch } from "../util.js";
 import RetailerUser from "../models/RetailerUser.model.js";
+import Deal from "../models/Deal.model.js";
+import DealOrderHistory from "../models/DealOrderHistory.model.js";
 const JWT_KEY = process.env.JWT_KEY;
 const customerToken = "customerToken";
 //
@@ -153,6 +155,68 @@ const getCustomerLoyaltyCoins = async (req, res) => {
   return res.status(200).send({ success: "true", data: customerIpfsData });
 };
 
+const getAllDeals = async (req, res) => {
+  const deals = await Deal.find({});
+  return res.status(200).send({ success: true, deals });
+};
+
+const getDealById = async (req, res) => {
+  const dealId = req.params["id"];
+  const deal = await Deal.findById(dealId);
+  return res.status(200).send({ success: "true", deal });
+};
+
+const createDealOrderHistory = async (req, res) => {
+  await DealOrderHistory.create({
+    userId: req.customer._id,
+    dealId: req.body.deal_id,
+    amount: req.body.amount,
+  });
+  //
+  const deal = await Deal.findById(req.body.deal_id);
+  const retailer = await RetailerUser.findById(deal.retailerId);
+  const customer = req.customer;
+  const amount = req.body.amount;
+  const productId = req.body.deal_id;
+
+  const retailerIpfsData = await getJSONFromCid(retailer.ipfsPath);
+  const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
+
+  //Retailer Update
+  retailerIpfsData.amount += amount;
+  retailerIpfsData.transactionList.push({
+    created_at: Date.now(),
+    amount: amount,
+    productId: productId,
+    customerId: customer._id,
+    type: "Credited",
+    msg: `${customer.firstName + " " + customer.lastName} purchased your deal "${deal.name}"`,
+  });
+  retailerIpfsData.updated_at = Date.now();
+
+  //Customer Update
+  customerIpfsData.amount -= amount;
+  customerIpfsData.transactionList.push({
+    created_at: Date.now(),
+    amount: amount,
+    productId: productId,
+    type: "Debited",
+    msg: `You purchased a deal ${deal.name}`,
+  });
+  customerIpfsData.updated_at = Date.now();
+
+  const newRetailerIpfsCid = await storeJSONToIpfs(retailerIpfsData);
+  const newCustomerIpfsCid = await storeJSONToIpfs(customerIpfsData);
+
+  await RetailerUser.updateOne({ _id: retailer._id }, { $set: { ipfsPath: newRetailerIpfsCid } });
+  await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
+  return res.status(200).send({ success: true });
+};
+
+const getCustomerDealsOrderHistory = async (req, res) => {
+  const deals = await DealOrderHistory.find({ userId: req.customer._id });
+  return res.status(200).send({ success: true, deals });
+};
 //
 //
 //
@@ -167,5 +231,9 @@ router.post("/orders/new", restrictToCustomerOnly, tryCatch(createCustomerOrderH
 router.get("/orders", restrictToCustomerOnly, tryCatch(getCustomerOrderHistory));
 router.get("/loyalty", restrictToCustomerOnly, tryCatch(getCustomerLoyaltyCoins));
 router.post("/loyalty/credit", restrictToCustomerOnly, tryCatch(creditLoyaltyCoinsToCustomer));
+router.get("/deals", restrictToCustomerOnly, tryCatch(getAllDeals));
+router.get("/deals/:id", restrictToCustomerOnly, tryCatch(getDealById));
+router.post("/deals_history/create", restrictToCustomerOnly, tryCatch(createDealOrderHistory));
+router.get("/deals_history", restrictToCustomerOnly, tryCatch(getCustomerDealsOrderHistory));
 
 export default router;

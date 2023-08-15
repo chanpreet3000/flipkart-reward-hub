@@ -104,6 +104,9 @@ const Navbar = () => {
                     <Link to="/rewards_hub" className="dashboard_profile-popout-item">
                       Loyalty Rewards hub
                     </Link>
+                    <Link to="/rewards_hub/deals_history" className="dashboard_profile-popout-item">
+                      Rewards Deal History
+                    </Link>
                     <Link to="/products" className="dashboard_profile-popout-item">
                       Shop Products
                     </Link>

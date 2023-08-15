@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { axiosInstance } from "../axios";
 import { useNavigate } from "react-router-dom";
-
+import DealCard from "./DealCard/DealCard";
 export default function RewardsHub() {
-  const [errorMessage, setErrorMessage] = useState("");
   const [userLoyaltyData, setUserLoyaltyData] = useState(null);
+  const [deals, setDeals] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axiosInstance.get("/api/customer/loyalty");
       setUserLoyaltyData(response.data.data);
+
+      const dealsResponse = await axiosInstance.get("/api/customer/deals");
+      setDeals(dealsResponse.data.deals);
     };
     fetchData();
   }, []);
@@ -31,7 +34,11 @@ export default function RewardsHub() {
           {" " + userLoyaltyData.amount}
         </h3>
         <div className="btn-wrapper">
-          <div onClick={()=>{navigate("/rewards_hub/coin_activity")}}>
+          <div
+            onClick={() => {
+              navigate("/rewards_hub/coin_activity");
+            }}
+          >
             <img
               src="https://rukminim2.flixcart.com/lockin/2000/2000/images/coin-act-dt.png?q=50"
               style={{ width: "100%", cursor: "pointer" }}
@@ -54,6 +61,12 @@ export default function RewardsHub() {
               src="https://rukminim2.flixcart.com/lockin/2000/2000/images/rewards-dt1.png?q=50"
               style={{ width: "100%", cursor: "pointer" }}
             />
+          </div>
+          <div className="plus-deals"></div>
+          <div className="plus-deals-container">
+            {deals.map((ele, ind) => {
+              return <DealCard ele={ele} key={ind} />;
+            })}
           </div>
         </div>
       </div>

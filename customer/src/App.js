@@ -10,6 +10,8 @@ import ProductInfo from "./Homepage/ProductInfo/ProductInfo";
 import RewardsHub from "./RewardsHub/RewardsHub";
 import CoinActivity from "./RewardsHub/CoinActivity/CoinActivity";
 import OrderHistory from "./OrderHistory/OrderHistory";
+import DealInfo from "./RewardsHub/DealInfo/DealInfo";
+import DealsHistory from "./RewardsHub/DealsHistory/DealsHistory";
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
           <Route path="rewards_hub" element={<RewardsHub />} />
           <Route path="rewards_hub/coin_activity" element={<CoinActivity />} />
           <Route path="order_history" element={<OrderHistory />} />
+          <Route path="rewards_hub/deals_history" element={<DealsHistory />} />
+          <Route path="rewards_hub/deals/:id" element={<DealInfo />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -32,12 +32,7 @@ export default function CoinActivityItem({ ele }) {
             <img src={product?.image} />
           </div>
           <div>
-            <div>
-              Earned on Flipkart on buying{" "}
-              <strong>
-                {product?.name} at ₹{product?.price}
-              </strong>
-            </div>
+            <div>{ele.msg}</div>
             <div className="grey">
               {ele.type} on {timestampToDDMMYYYY(ele.created_at)}
             </div>
