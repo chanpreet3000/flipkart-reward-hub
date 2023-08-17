@@ -1,0 +1,22 @@
+
+.scratch-card .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 5px soild red;
+  border-radius: 10px;
+  margin-top: 5rem;
+}
+
+.scratch-card .ScratchCard__Result {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.scratch-card .ScratchCard__Container .ScratchCard__Canvas {
+  border-radius: 5px;
+  box-shadow: 0 0 5px 3px rgb(0, 0, 0, 0.3);
+}

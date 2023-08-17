@@ -5,6 +5,9 @@ import DealCard from "../DealCard/DealCard";
 import "./styles.scss";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { TaskContractAddress } from "../../config.js";
+import TaskAbi from "../../TaskContract.json";
+import { ethers } from "ethers";
 
 export default function DealInfo() {
   const [deal, setDeal] = useState(null);
@@ -22,11 +25,27 @@ export default function DealInfo() {
   }, [id]);
 
   const buyTheProduct = async () => {
-    await axiosInstance.post(`/api/customer/deals_history/create`, {
-      deal_id: deal._id,
-      amount: deal.price,
-    });
-    setPopOut(true);
+    if (!window.ethereum) return;
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const response = await axiosInstance.post(`/api/customer/deals_history/create`, {
+        deal_id: deal._id,
+        amount: deal.price,
+      });
+      const { customerWalletId, newCustomerIpfsCid, newRetailerIpfsCid, retailerWalletId } = response.data;
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const TaskContract = new ethers.Contract(TaskContractAddress, TaskAbi.abi, signer);
+      await TaskContract.setCustomerRetailer(
+        retailerWalletId,
+        customerWalletId,
+        newRetailerIpfsCid,
+        newCustomerIpfsCid
+      );
+      setPopOut(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div className="deal-info">

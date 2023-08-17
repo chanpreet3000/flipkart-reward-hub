@@ -39,3 +39,45 @@
   gap: 1rem;
   flex-wrap: nowrap;
 }
+
+.game {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.game a{
+  text-decoration: none;
+  color:black;
+}
+.game .game-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fefefe;
+  border-radius: 1rem;
+  box-shadow: 0 0 3px 2px #0d0d0d20;
+  padding: 0rem 0.5rem;
+  cursor: pointer;
+  transition: all 200ms;
+}
+.game .game-wrapper:hover {
+  transform: scale(1.03);
+}
+.game .game-img {
+  width: 30px;
+  height: 30px;
+  background-image: url("../raw/rainbow-spinning-wheel-png.webp");
+  background-size: cover;
+}
+
+.game .game-img-scratch{
+  width: 70px;
+  height: 30px;
+  background-image: url("../raw/pngegg.png");
+  background-size: cover;
+  background-position: center;
+}

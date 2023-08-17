@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { axiosInstance } from "../axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DealCard from "./DealCard/DealCard";
 export default function RewardsHub() {
   const [userLoyaltyData, setUserLoyaltyData] = useState(null);
@@ -25,6 +25,20 @@ export default function RewardsHub() {
     <div className="loyalty">
       <div className="wrapper">
         <h1>Flipkart Loyalty Reward Hub</h1>
+        <div className="game">
+          <Link to="/rewards_hub/spin_wheel">
+            <div className="game-wrapper">
+              <div className="game-img" />
+              <p>Spin a wheel</p>
+            </div>
+          </Link>
+          <Link to="/rewards_hub/scratch_card">
+            <div className="game-wrapper">
+              <div className="game-img-scratch" />
+              <p>Scratch a card</p>
+            </div>
+          </Link>
+        </div>
         <h3 style={{ marginTop: "2rem" }}>
           Loyalty Coin Balance{" "}
           <img

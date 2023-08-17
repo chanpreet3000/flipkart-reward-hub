@@ -113,7 +113,7 @@ const creditLoyaltyCoinsToCustomer = async (req, res) => {
   const customer = req.customer;
   const amount = req.body.amount;
   const productId = req.body.product_id;
-  const product = await Product.findById(productId);
+  const name = req.body.name;
 
   const retailerIpfsData = await getJSONFromCid(retailer.ipfsPath);
   const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
@@ -126,7 +126,7 @@ const creditLoyaltyCoinsToCustomer = async (req, res) => {
     productId: productId,
     customerId: customer._id,
     type: "Debited",
-    msg: `${customer.firstName + " " + customer.lastName} purchased your product "${product.name}"`,
+    msg: `${customer.firstName + " " + customer.lastName} purchased your product "${name}"`,
   });
   retailerIpfsData.updated_at = Date.now();
 
@@ -137,7 +137,7 @@ const creditLoyaltyCoinsToCustomer = async (req, res) => {
     amount: amount,
     productId: productId,
     type: "Credited",
-    msg: `You purchased a product ${product.name}`,
+    msg: `You purchased a product ${name}`,
   });
   customerIpfsData.updated_at = Date.now();
 
@@ -146,7 +146,13 @@ const creditLoyaltyCoinsToCustomer = async (req, res) => {
 
   await RetailerUser.updateOne({ _id: retailer._id }, { $set: { ipfsPath: newRetailerIpfsCid } });
   await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
-  return res.status(200).send({ success: true });
+  return res.status(200).send({
+    success: true,
+    newRetailerIpfsCid,
+    newCustomerIpfsCid,
+    retailerWalletId: retailer.walletId,
+    customerWalletId: customer.walletId,
+  });
 };
 
 const getCustomerLoyaltyCoins = async (req, res) => {
@@ -190,7 +196,7 @@ const createDealOrderHistory = async (req, res) => {
     productId: productId,
     customerId: customer._id,
     type: "Credited",
-    msg: `${customer.firstName + " " + customer.lastName} purchased your deal "${deal.name}"`,
+    msg: `${customer.name.firstName + " " + customer.name.lastName} purchased your deal "${deal.name}"`,
   });
   retailerIpfsData.updated_at = Date.now();
 
@@ -210,12 +216,44 @@ const createDealOrderHistory = async (req, res) => {
 
   await RetailerUser.updateOne({ _id: retailer._id }, { $set: { ipfsPath: newRetailerIpfsCid } });
   await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
-  return res.status(200).send({ success: true });
+  return res.status(200).send({
+    success: true,
+    newRetailerIpfsCid,
+    newCustomerIpfsCid,
+    retailerWalletId: retailer.walletId,
+    customerWalletId: customer.walletId,
+  });
 };
 
 const getCustomerDealsOrderHistory = async (req, res) => {
   const deals = await DealOrderHistory.find({ userId: req.customer._id });
   return res.status(200).send({ success: true, deals });
+};
+
+const creditScratchCardLoyaltyCoinsToCustomer = async (req, res) => {
+  const customer = req.customer;
+  const amount = req.body.amount;
+
+  const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
+  //Customer Update
+  customerIpfsData.amount -= amount;
+  customerIpfsData.transactionList.push({
+    created_at: Date.now(),
+    amount: amount,
+    productId: "",
+    type: "Credited",
+    msg: `You won ${amount} in Scratch Card`,
+  });
+  customerIpfsData.updated_at = Date.now();
+
+  const newCustomerIpfsCid = await storeJSONToIpfs(customerIpfsData);
+
+  await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
+  return res.status(200).send({
+    success: true,
+    newCustomerIpfsCid,
+    customerWalletId: customer.walletId,
+  });
 };
 //
 //
@@ -235,5 +273,6 @@ router.get("/deals", restrictToCustomerOnly, tryCatch(getAllDeals));
 router.get("/deals/:id", restrictToCustomerOnly, tryCatch(getDealById));
 router.post("/deals_history/create", restrictToCustomerOnly, tryCatch(createDealOrderHistory));
 router.get("/deals_history", restrictToCustomerOnly, tryCatch(getCustomerDealsOrderHistory));
+router.post("/scratch_card/credit", restrictToCustomerOnly, tryCatch(creditScratchCardLoyaltyCoinsToCustomer));
 
 export default router;

@@ -32,19 +32,14 @@ export default function CoinActivityItem({ ele }) {
             <img src={product?.image} />
           </div>
           <div>
-            <div>
-              User on Flipkart bought your {" "}
-              <strong>
-                {product?.name} for ₹{product?.price}
-              </strong>
-            </div>
+            <div>{ele.msg}</div>
             <div className="grey">
               {ele.type} on {timestampToDDMMYYYY(ele.created_at)}
             </div>
           </div>
         </div>
         {ele.type === "Credited" && <div className="credit">+{ele.amount}</div>}
-        {ele.type === "Debited" && <div  className="debit">-{ele.amount}</div>}
+        {ele.type === "Debited" && <div className="debit">-{ele.amount}</div>}
       </div>
     </div>
   );
