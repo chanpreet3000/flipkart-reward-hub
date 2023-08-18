@@ -51,7 +51,7 @@ const handleRetailerSignup = async (req, res) => {
     retailerName: data.retailer_name,
     email: data.email,
     password: encryptedPassword,
-    walledId: data.walletId,
+    walletId: data.walletId,
     ipfsPath: ipfsPath,
   });
   return res.status(200).send({ success: true });

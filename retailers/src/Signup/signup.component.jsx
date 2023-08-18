@@ -133,7 +133,7 @@ const Signup = () => {
                   <div className="signup-form-wallet-connected">
                     <ErrorIcon style={{ color: "white" }} />
                     <div className="wrapper">
-                      <div className="title">MetaMask Walled Connected!</div>
+                      <div className="title">MetaMask Wallet Connected!</div>
                       <div>{walletId}</div>
                     </div>
                   </div>

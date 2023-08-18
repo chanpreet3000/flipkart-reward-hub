@@ -126,7 +126,7 @@ const creditLoyaltyCoinsToCustomer = async (req, res) => {
     productId: productId,
     customerId: customer._id,
     type: "Debited",
-    msg: `${customer.firstName + " " + customer.lastName} purchased your product "${name}"`,
+    msg: `${customer.name.firstName + " " + customer.name.lastName} purchased your product "${name}"`,
   });
   retailerIpfsData.updated_at = Date.now();
 

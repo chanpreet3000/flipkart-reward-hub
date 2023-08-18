@@ -78,7 +78,7 @@
   cursor: pointer;
 }
 .signup-form-wallet-connected {
-  background-color: rgb(205, 53, 53);
+  background-color: rgb(23, 197, 0);
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -94,7 +94,7 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-.signup-form-wallet-connected .wrapper .title{
+.signup-form-wallet-connected .wrapper .title {
   font-weight: bold;
   font-size: 18px;
 }
