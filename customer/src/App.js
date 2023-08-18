@@ -13,6 +13,7 @@ import OrderHistory from "./OrderHistory/OrderHistory";
 import DealInfo from "./RewardsHub/DealInfo/DealInfo";
 import DealsHistory from "./RewardsHub/DealsHistory/DealsHistory";
 import ScratchCardComp from "./RewardsHub/Scratchcard/ScratchCardComp";
+import SpinWheel from "./RewardsHub/SpinWheel/SpinWheel";
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
           <Route path="order_history" element={<OrderHistory />} />
           <Route path="rewards_hub/deals_history" element={<DealsHistory />} />
           <Route path="rewards_hub/deals/:id" element={<DealInfo />} />
-          <Route path="rewards_hub/spin_wheel" element={<DealInfo />} />
+          <Route path="rewards_hub/spin_wheel" element={<SpinWheel />} />
           <Route path="rewards_hub/scratch_card" element={<ScratchCardComp />} />
         </Route>
       </Routes>

@@ -236,13 +236,39 @@ const creditScratchCardLoyaltyCoinsToCustomer = async (req, res) => {
 
   const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
   //Customer Update
-  customerIpfsData.amount -= amount;
+  customerIpfsData.amount += amount;
   customerIpfsData.transactionList.push({
     created_at: Date.now(),
     amount: amount,
     productId: "",
     type: "Credited",
     msg: `You won ${amount} in Scratch Card`,
+  });
+  customerIpfsData.updated_at = Date.now();
+
+  const newCustomerIpfsCid = await storeJSONToIpfs(customerIpfsData);
+
+  await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
+  return res.status(200).send({
+    success: true,
+    newCustomerIpfsCid,
+    customerWalletId: customer.walletId,
+  });
+};
+
+const creditSpinWheelLoyaltyCoinsToCustomer = async (req, res) => {
+  const customer = req.customer;
+  const amount = req.body.amount;
+
+  const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
+  //Customer Update
+  customerIpfsData.amount += amount;
+  customerIpfsData.transactionList.push({
+    created_at: Date.now(),
+    amount: amount,
+    productId: "",
+    type: "Credited",
+    msg: `You won ${amount} in Spin Wheel`,
   });
   customerIpfsData.updated_at = Date.now();
 
@@ -274,5 +300,6 @@ router.get("/deals/:id", restrictToCustomerOnly, tryCatch(getDealById));
 router.post("/deals_history/create", restrictToCustomerOnly, tryCatch(createDealOrderHistory));
 router.get("/deals_history", restrictToCustomerOnly, tryCatch(getCustomerDealsOrderHistory));
 router.post("/scratch_card/credit", restrictToCustomerOnly, tryCatch(creditScratchCardLoyaltyCoinsToCustomer));
+router.post("/spin_wheel/credit", restrictToCustomerOnly, tryCatch(creditSpinWheelLoyaltyCoinsToCustomer));
 
 export default router;
