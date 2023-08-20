@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { errorHandler } from "./util.js";
-import customerRouter from "./routes/customer.js";
+import customerRouter, { loyaltyCoinDecay } from "./routes/customer.js";
 import retailerRouter from "./routes/retailer.js";
 
 const app = express();
@@ -28,6 +28,11 @@ app.use("/api/retailer", retailerRouter);
 
 // Error handler
 app.use(errorHandler);
+
+async function decay() {
+  await loyaltyCoinDecay();
+}
+setInterval(decay, 1 * 60 * 1000);
 
 // Connecting Database and Server
 const PORT = process.env.PORT;

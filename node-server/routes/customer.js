@@ -281,6 +281,28 @@ const creditSpinWheelLoyaltyCoinsToCustomer = async (req, res) => {
     customerWalletId: customer.walletId,
   });
 };
+
+export const loyaltyCoinDecay = async (req, res) => {
+  const customers = await CustomerUser.find({});
+  customers.map(async (customer) => {
+    const customerIpfsData = await getJSONFromCid(customer.ipfsPath);
+
+    const amount = Math.floor(customerIpfsData.amount * 0.01);
+    customerIpfsData.amount -= amount;
+    customerIpfsData.transactionList.push({
+      created_at: Date.now(),
+      amount: amount,
+      productId: "",
+      type: "Debited",
+      msg: `${amount} Loyalty Coin(s) decayed`,
+    });
+    customerIpfsData.updated_at = Date.now();
+
+    const newCustomerIpfsCid = await storeJSONToIpfs(customerIpfsData);
+
+    await CustomerUser.updateOne({ _id: customer._id }, { $set: { ipfsPath: newCustomerIpfsCid } });
+  });
+};
 //
 //
 //
